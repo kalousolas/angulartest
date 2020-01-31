@@ -3,14 +3,41 @@
 <div>{{movie.name}}</div> -->
 <!-- <h2>{{Title}}</h2> -->
 <!-- <movie-detail [movie]="selectedMovie"></movie-detail> -->
-<div class="card">
+<div class="card my-2">
     <div class="card-header">
         {{title}}
     </div>
     <ul class="list-group list-group-flush">
         <li *ngFor="let movie of movies" class="list-group-item" routerLink='/detail/{{movie.id}}'>
             <span class="badge badge-primary"> {{movie.id}} </span>{{movie.name}}
-            <span class="close">x</span>
+            <span (click)="delete(movie)" class="close">x</span>
         </li>
     </ul>
+</div>
+
+<div class="card my-2">
+    <div class="card-header">
+        Add Movie
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <label for="name">name
+                <input #name class="form-control">
+            </label>
+        </div>
+        <div class="form-group">
+            <label for="imageUrl">imageUrl
+                <input #imageUrl class="form-control">
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label for="description">description
+                <textarea #description class="form-control"></textarea>
+            </label>
+        </div>
+        <button
+            (click)="add(name.value,imageUrl.value,description.value);name.value='';imageUrl.value='';description.value=''; "
+            class="btn btn-primary btn-sm">Save</button>
+    </div>
 </div>
