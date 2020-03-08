@@ -22,5 +22,80 @@
     katalogtaki ikinci ürün {{model.getProductById(2).name}}
 </div>
 
+<div *ngIf="model.getProducts().length > 0; then productList else noProducts">
+
+</div>
+
+<ng-template #productList>
+    <div class="bg-primary text-white m-2 p-2">
+        There are {{model.getProducts().length }} products in the repository.
+    </div>
+
+</ng-template>
+
+<ng-template #noProducts>
+    <div class="bg-primary text-white m-2 p-2">
+        There are no products in the repository.
+    </div>
+
+</ng-template>
+
+<div [hidden]="model.getProducts().length == 0" class="bg-primary text-white m-2 p-2">
+    There are {{model.getProducts().length }} products in the repository.
+</div>
+<div [hidden]="model.getProducts().length != 0" class="bg-primary text-white m-2 p-2">
+    There are no products in the repository.
+</div>
+
+<div class="bg-info m-2 p-2" [ngSwitch]="model.getProductCount()">
+    <span *ngSwitchCase="0">There are no products</span>
+    <span *ngSwitchCase="1">There are 1 product</span>
+    <span *ngSwitchCase="2">There are 2 product</span>
+    <span *ngSwitchDefault>There are many products</span>
+</div>
+<div class="bg-info m-2 p-2" [ngSwitch]="model.getProductById(2).name">
+    <span *ngSwitchCase="productName"></span>
+    <span *ngSwitchCase="'Samsung Galaxy S5'">Samsung Galaxy S5</span>
+    <span *ngSwitchCase="'Samsung Galaxy S6'">Samsung Galaxy S6</span>
+    <span *ngSwitchCase="'Samsung Galaxy S7'">Samsung Galaxy S7</span>
+    <span *ngSwitchDefault>none</span>
+
+</div>
+<ul>
+    <li
+        *ngFor="let product of model.getProducts(); index as i; first as isFirst; last as isLast; odd as isOdd; even as isEven;">
+        {{i+1}} - {{product.name}}
+        <span *ngIf="isFirst">First item</span>
+        <span *ngIf="isLast">Last item</span>
+        <span *ngIf="isOdd">Odd item</span>
+        <span *ngIf="isEven">Even item</span>
+    </li>
+</ul>
+
+
+
+<!-- <div *ngIf="model.getProducts().length == 0" class="bg-primary text-white m-2 p-2">
+    There are no products in the repository.
+</div> -->
+
+<ng-template [ngTemplateOutlet]="productListTemplate" [ngTemplateOutletContext]="{products: model.getProducts()}">
+</ng-template>
+<ng-template [ngTemplateOutlet]="productListTemplate" [ngTemplateOutletContext]="{products: model.getProducts()}">
+</ng-template>
+<ng-template #productListTemplate let-products="products">
+    <div class="m-5">
+        <button class="btn btn-primary" (click)="addProduct();">Add Product</button>
+        <ul class="list-group mt-2">
+            <li *ngFor="let product of products;" class="list-group-item">
+                {{product.name}}
+                <button class="btn btn-danger" (click)="deleteProduct(product);">Delete Product</button>
+                <button class="btn btn-warning" (click)="updateProduct(product);">Update Product</button>
+            </li>
+        </ul>
+    </div>
+    <br>
+</ng-template>
+
+<input type="text" appInputEmail>
 
 <button class="btn btn-primary" [class.disabled]="disabled">Submit</button>
